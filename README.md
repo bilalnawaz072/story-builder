@@ -148,7 +148,7 @@ Your `.env.local` file is crucial for connecting to external services.
 
 # Prisma / MongoDB
 # Your MongoDB connection string
-DATABASE_URL="mongodb+srv://user:password@cluster.mongodb.net/your-db?retryWrites=true&w=majority"
+DATABASE_URL=""
 
 # NextAuth.js
 # A secret for signing tokens. Generate one here: https://generate-secret.vercel.app/32
