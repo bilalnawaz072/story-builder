@@ -10,15 +10,15 @@ An AI-powered, collaborative platform for creating, visualizing, and sharing com
 
 ## Table of Contents
 
-  - [Features](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Tech Stack](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Prerequisites](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Installation](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Configuration](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Running the Application](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Project Structure](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [Usage](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
-  - [License](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Features](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#features)
+  - [Tech Stack](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#tech-stack)
+  - [Prerequisites](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#prerequisites)
+  - [Installation](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#installation)
+  - [Configuration](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#configuration)
+  - [Running the Application](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#running-the-application)
+  - [Project Structure](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#project-structure)
+  - [Usage](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#usage)
+  - [License](https://github.com/bilalnawaz072/story-builder/blob/main/README.md#license)
 
 ## Features
 
