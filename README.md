@@ -10,17 +10,15 @@ An AI-powered, collaborative platform for creating, visualizing, and sharing com
 
 ## Table of Contents
 
-  - [Features](https://www.google.com/search?q=%23features)
-  - [Tech Stack](https://www.google.com/search?q=%23tech-stack)
-  - [Prerequisites](https://www.google.com/search?q=%23prerequisites)
-  - [Installation](https://www.google.com/search?q=%23installation)
-  - [Configuration](https://www.google.com/search?q=%23configuration)
-  - [Running the Application](https://www.google.com/search?q=%23running-the-application)
-  - [Project Structure](https://www.google.com/search?q=%23project-structure)
-  - [Usage](https://www.google.com/search?q=%23usage)
-  - [Contributing](https://www.google.com/search?q=%23contributing)
-  - [License](https://www.google.com/search?q=%23license)
-  - [Contact](https://www.google.com/search?q=%23contact)
+  - [Features](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Tech Stack](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Prerequisites](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Installation](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Configuration](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Running the Application](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Project Structure](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [Usage](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
+  - [License](https://github.com/bilalnawaz072/story-builder/edit/main/README.md#tech-stack)
 
 ## Features
 
