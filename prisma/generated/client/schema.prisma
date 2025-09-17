@@ -1,0 +1,216 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  storiesOwned     Story[] // Renamed from 'stories' for clarity
+  // NEW: Link to the membership table
+  storyMemberships StoryMember[]
+}
+
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Story {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+
+  // Renamed from 'userId' to 'ownerId' for clarity
+  ownerId String @db.ObjectId
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // NEW: Link to the membership table
+  members StoryMember[]
+
+  scenes          Scene[]
+  characters      Character[]
+  assets          Asset[]
+  documents       Document[]
+  analyticsEvents AnalyticsEvent[]
+  choiceAnalytics ChoiceAnalytics[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StoryMember {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  role Role   @default(EDITOR)
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([storyId, userId]) // A user can only be in a story once
+}
+
+model Scene {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   String?
+  positionX Float   @default(0)
+  positionY Float   @default(0)
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  // RELATIONSHIPS FOR CHOICES
+  choicesFrom Choice[] @relation("SourceChoices")
+  choicesTo   Choice[] @relation("TargetChoices")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// NEW MODEL for edges/connections
+model Choice {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  text String // The text on the choice, e.g., "Go through the red door"
+
+  sourceSceneId String @db.ObjectId
+  sourceScene   Scene  @relation("SourceChoices", fields: [sourceSceneId], references: [id], onDelete: Cascade)
+
+  targetSceneId   String           @db.ObjectId
+  targetScene     Scene            @relation("TargetChoices", fields: [targetSceneId], references: [id], onDelete: Cascade)
+  analyticsEvents AnalyticsEvent[]
+  analytics       ChoiceAnalytics? // A choice can have one analytics summary
+  createdAt       DateTime         @default(now())
+}
+
+model Character {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  persona String? // A description of the character's personality, voice, etc.
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Asset {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  type    AssetType
+  content String
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Document {
+  id     String         @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  url    String         @unique // The URL from Vercel Blob
+  status DocumentStatus @default(UPLOADED)
+
+  extractedData String?
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  playthroughId String // Anonymous ID for a single playthrough session
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  choiceId String @db.ObjectId
+  choice   Choice @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+
+  sourceSceneId String @db.ObjectId
+  targetSceneId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+}
+
+// Stores the aggregated click count for each choice
+model ChoiceAnalytics {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  clickCount Int    @default(0)
+
+  storyId String @db.ObjectId
+  story   Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  choiceId String @unique @db.ObjectId
+  choice   Choice @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+}
+
+enum AssetType {
+  TEXT_SNIPPET
+  IMAGE_URL
+}
+
+enum DocumentStatus {
+  UPLOADED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum Role {
+  OWNER
+  EDITOR
+  VIEWER
+}
